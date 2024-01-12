@@ -1,0 +1,24 @@
+# option is hidden from config in package
+# skip all
+CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
+CONFIG_MODULE_SIG_KEY_TYPE_ECDSA=y
+CONFIG_MODULE_SIG=y
+# option is hidden from config in package
+# skip all
+CONFIG_MODULE_SIG_ALL=y
+CONFIG_SECURITY_LOCKDOWN_LSM=y
+CONFIG_SECURITY_LOCKDOWN_LSM_EARLY=y
+
+CONFIG_DEBUG_INFO=y
+CONFIG_DEBUG_INFO_BTF=y
+
+# skip amd64
+CONFIG_EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER=y
+
+# Enable SGX
+# skip arm64
+CONFIG_X86_SGX=y
+# skip arm64
+CONFIG_X86_SGX_KVM=y
+
+CONFIG_MAGIC_SYSRQ=n

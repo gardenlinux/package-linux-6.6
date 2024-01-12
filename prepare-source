@@ -1,0 +1,113 @@
+#!/bin/bash
+
+set -euE
+
+source "$(dirname "$0")/version.sh"
+
+function git() {
+  command git -c advice.detachedHead=false "$@"
+}
+
+UPSTREAM_VERSION=$(upstream_version)
+
+if [[ ${CI_COMMIT_TAG:-} ]]; then
+  SOURCE_VERSION=${CI_COMMIT_TAG#*/}
+  UPSTREAM_VERSION=${SOURCE_VERSION%-*garden*}
+elif [[ ${CI_MERGE_REQUEST_IID:-} ]]; then
+  SOURCE_VERSION="${UPSTREAM_VERSION}-0gardenlinux~${CI_MERGE_REQUEST_IID}.${CI_PIPELINE_ID}.${CI_COMMIT_SHORT_SHA}"
+elif [[ ${CI_PIPELINE_ID:-} ]]; then
+  SOURCE_VERSION="${UPSTREAM_VERSION}-0gardenlinux~0.${CI_PIPELINE_ID}.${CI_COMMIT_SHORT_SHA}"
+else
+  SOURCE_VERSION="${UPSTREAM_VERSION}-0gardenlinux~0"
+fi
+
+OUTPUT_DIR=${1:-_output}
+ORIG_TAR=${SOURCE_NAME}_${UPSTREAM_VERSION}.orig.tar.xz
+ORIG_TAR_CREATE=
+
+mkdir $OUTPUT_DIR
+echo '### cloning the reference kernel'
+git clone --quiet --depth 1 --branch $DEBIAN_REF $DEBIAN_REPO ${OUTPUT_DIR}/linux-ref
+
+if [[ ${DEBIAN_MAIN_REF:-} ]]; then
+  echo '### Using a pinned debian release environment'
+  git clone --quiet $DEBIAN_REPO ${OUTPUT_DIR}/${SOURCE_NAME}
+  pushd ${OUTPUT_DIR}/${SOURCE_NAME}
+  git checkout $DEBIAN_MAIN_REF
+  popd
+else
+  echo '### cloning the latest and greatest debian release environment'
+  git clone --quiet --depth 1 $DEBIAN_REPO ${OUTPUT_DIR}/${SOURCE_NAME}
+fi
+
+echo '### pulling existing orig via pristine-lfs'
+git fetch --quiet --depth 1 origin pristine-lfs
+pristine-lfs checkout _output/${ORIG_TAR} || true
+if [[ -e _output/${ORIG_TAR} ]]; then
+  echo "use existing ${ORIG_TAR}"
+else
+  if [[ ${CI_COMMIT_TAG:-} ]]; then
+    echo "can't find ${ORIG_TAR}, refusing to continue" >&2
+    exit 1
+  else
+    echo "can't find ${ORIG_TAR}, creating new one"
+    ORIG_TAR_CREATE=1
+  fi
+fi
+
+echo '### replace config and patches from reference kernel'
+rm -r ${OUTPUT_DIR}/${SOURCE_NAME}/debian/{certs,config,patches,patches-rt,rules.d}
+cp -r ${OUTPUT_DIR}/linux-ref/debian/{config,patches,rules.d} ${OUTPUT_DIR}/${SOURCE_NAME}/debian/
+
+echo '### replace with own config'
+rsync -a debian/ ${OUTPUT_DIR}/${SOURCE_NAME}/debian/
+# XXX: Workaround to disable installer packages
+rm -r ${OUTPUT_DIR}/${SOURCE_NAME}/debian/installer/modules
+truncate -s 0 ${OUTPUT_DIR}/${SOURCE_NAME}/debian/{kernel-versions,package-list}
+
+echo '### add own patches'
+find ${OUTPUT_DIR}/${SOURCE_NAME}/debian/patches/gardenlinux -type f -name '*.patch' -printf 'gardenlinux/%P\n' | sort >> ${OUTPUT_DIR}/${SOURCE_NAME}/debian/patches/series
+
+if [ -v UPDATE_DFL ]; then
+  echo "### Updating DFL drivers"
+  ./update-dfl.sh
+fi
+
+
+
+if [ -e patches/series ]; then
+  for patch in $(grep -vE '^( |#)' patches/series); do
+    patch -d ${OUTPUT_DIR}/${SOURCE_NAME} -p1 < patches/$patch
+  done
+fi
+
+echo '### prepare changelog'
+cd ${OUTPUT_DIR}/${SOURCE_NAME}/
+if [[ ${CI_COMMIT_TAG:-} ]]; then
+  dch --newversion $SOURCE_VERSION --distribution gardenlinux --force-distribution ''
+elif [[ ${CI_MERGE_REQUEST_IID:-} ]]; then
+  VERSION="$(dpkg-parsechangelog -SVersion)gardenlinux~${CI_MERGE_REQUEST_IID}.${CI_PIPELINE_ID}.${CI_COMMIT_SHORT_SHA}"
+  dch --newversion $SOURCE_VERSION --distribution UNRELEASED --force-distribution -- \
+    "Snapshot from merge request ${CI_MERGE_REQUEST_IID}."
+elif [[ ${CI_PIPELINE_ID:-} ]]; then
+  dch --newversion $SOURCE_VERSION --distribution UNRELEASED --force-distribution -- \
+    "Snapshot from branch ${CI_COMMIT_REF_NAME}."
+else
+  dch --newversion $SOURCE_VERSION --distribution UNRELEASED --force-distribution -- \
+    "Snapshot from checkout."
+fi
+
+echo '### generating a debian conform orig file and install'
+if [[ $ORIG_TAR_CREATE ]]; then
+  PYTHONDONTWRITEBYTECODE=1 debian/bin/genorig.py $UPSTREAM_REPO
+  # genorig only places a symlink in .., replace with real file to allow artifacts storage
+  rm ../*.orig.tar.*
+  ln ../orig/${SOURCE_NAME}_${UPSTREAM_VERSION}.orig.tar.xz ..
+fi
+make -f debian/rules orig
+
+echo '### creating control file'
+PYTHONDONTWRITEBYTECODE=1 make -f debian/rules debian/control-real || :
+
+echo '### building source package'
+dpkg-buildpackage -us -uc -S -nc -d

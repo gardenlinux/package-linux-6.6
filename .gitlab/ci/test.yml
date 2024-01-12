@@ -1,0 +1,32 @@
+test upstream version:
+  stage: test
+  image: debian:bookworm-slim
+
+  before_script:
+  - >
+    if [[ $CI_DISPOSABLE_ENVIRONMENT ]]; then
+      apt-get update -qy
+      apt-get install -qy --no-install-recommends ca-certificates curl git jq
+    fi
+
+  script:
+  - |
+    # Checking versions
+    source version.sh
+    TAGS_URL="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/repository/tags?search=^gardenlinux/"
+    VERSION_LATEST=$(upstream_version)
+    echo -e "\033[37;2mFound latest version ${VERSION_LATEST} of Linux kernel\033[0;m"
+    while read -r version; do
+      echo -e "\033[37;2mFound tag for version ${version}\033[0;m"
+      if [[ $VERSION_LATEST == "${version}" ]]; then
+        echo -e "\033[32;1mTag found for latest version ${VERSION_LATEST}\033[0;m"
+        exit 0
+      fi
+    done < <(curl -sf "$TAGS_URL" | jq -r '.[] | .name | capture("^gardenlinux/(?<version>.*?)-\\d+garden.*") | .version')
+    echo -e "\033[31;1mNo tag found for latest version ${VERSION_LATEST}. Please update with tag 'gardenlinux/${VERSION_LATEST}-0gardenlinux1'!\033[0;m"
+    exit 1
+
+  rules:
+  - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    when: always
+  needs: []

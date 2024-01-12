@@ -1,0 +1,34 @@
+stages:
+- source
+- build
+- signed source
+- signed build
+- test
+- deploy
+
+variables:
+  DEB_BUILD_OPTIONS: nodoc terse
+  DEB_BUILD_PROFILES: nodoc nopython
+  BUILD_ARCH_ALL: 'true'
+  EXCLUDE_ARTIFACT: '_output/*-dbg_*.deb'
+  UPLOAD_OUTPUT_TO_S3: 'true'
+
+build amd64:
+  tags:
+  - gardenlinux-build-amd64-large
+
+build arm64:
+  tags: 
+  - gardenlinux-build-arm64-large
+
+include:
+- local: .gitlab/ci/source.yml
+- local: .gitlab/ci/test.yml
+- project: gardenlinux/gardenlinux-package-build
+  file:
+  - pipeline/workflow.yml
+  - pipeline/variables.yml
+  - pipeline/build.yml
+  - pipeline/signed-source.yml
+  - pipeline/signed-build.yml
+  - pipeline/deploy.yml

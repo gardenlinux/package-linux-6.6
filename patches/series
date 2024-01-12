@@ -1,0 +1,6 @@
+#update-kernelvariables-debian-patch.patch
+#reverse-extract-build-location-back-to-scripts.patch
+#abiname-use-full-version.patch
+
+#intel-dfl-fixes/0001-can-be-reverse-applied-so-patch-is-empty.patch
+#remove-rtla-package.patch

@@ -1,0 +1,34 @@
+From 845ed659f569d79ccad7cdcacab2239a376efe5b Tue Feb 09 00:00:00 2022
+From: Vincent Riesop <v.riesop@sap.com>
+Date: Mon, 7 Feb 2022 03:34:43 +0100
+Subject: [PATCH] reverse build extract-cert in certs/ instead of
+ scripts/.
+
+---
+ debian/rules.real               | 2 --
+ 1 files changed, 0 insertions(+), 2 deletions(-)
+
+diff --git a/debian/rules.real b/debian/rules.real
+index 5c95c96fd..8b1008026 100644
+--- a/debian/rules.real
++++ b/debian/rules.real
+@@ -570,7 +570,6 @@
+ 	dh_builddeb -- $(BUILDDEB_ARGS)
+ 
+ build_kbuild: $(STAMPS_DIR)/build-tools-headers
+-	$(call make-tools,certs)
+ 	$(call make-tools,scripts)
+ 	$(call make-tools,tools/objtool)
+ 
+@@ -579,7 +578,6 @@
+ 	dh_testdir
+ 	dh_testroot
+ 	dh_prep
+-	$(call make-tools,certs) install prefix=$(PREFIX_DIR)
+ 	$(call make-tools,scripts) install prefix=$(PREFIX_DIR)
+ 	$(call make-tools,tools/objtool) install prefix=$(PREFIX_DIR)
+ 	dh_link $(PREFIX_DIR) /usr/src/$(PACKAGE_NAME)
+-- 
+2.34.1
+
+
