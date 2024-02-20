@@ -22,3 +22,7 @@ CONFIG_X86_SGX=y
 CONFIG_X86_SGX_KVM=y
 
 CONFIG_MAGIC_SYSRQ=n
+
+# Disable it for all architectures
+# 6.6 kernel implicitly enabled this via https://salsa.debian.org/kernel-team/linux/-/commit/f994ffb127c90e04fd8252b79a021b60cb5e4507#fc973071e6f4da49be1ec7a17e00635dd41dcaf1_1392_1420
+CONFIG_REMOTEPROC=n
