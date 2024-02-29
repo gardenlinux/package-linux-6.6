@@ -1,0 +1,31 @@
+pkg=linux
+version_orig=6.6.17
+version="$version_orig-0"
+
+(
+	kernel_repo=https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+	debian_repo=https://salsa.debian.org/kernel-team/linux.git
+	debian_ref="debian/6.6.15-2"
+
+	tmp_dir="$(mktemp -d)"
+	trap 'cd / && rm -rf "$tmp_dir"' EXIT
+	cd "$tmp_dir"
+
+	git clone --depth 1 --branch "$debian_ref" "$debian_repo" linux
+	cd linux
+
+	apt-get install --no-install-recommends -y python3-debian # needed for genorig
+	debian/bin/genorig.py --override-version "$version_orig" "$kernel_repo"
+	git clean -fdx
+
+	auto_decompress ../*.orig.tar.* | tee "$dir/orig.tar" | tar --extract --strip-components 1 --directory "$dir/src"
+	cp -r debian "$dir/src/"
+)
+
+# cp -r --update=none debian/. "$dir/src/debian/."
+cp -r debian/. "$dir/src/debian/."
+
+sed -i 's/compiler: gcc-13/compiler: gcc/' "$dir/src/debian/config/defines"
+
+rm "$dir/src/debian/patches/debian/Revert-docs-kernel_feat.py-fix-potential-command-inj.patch"
+sed -i '/debian\/Revert-docs-kernel_feat\.py-fix-potential-command-inj\.patch/d' "$dir/src/debian/patches/series"

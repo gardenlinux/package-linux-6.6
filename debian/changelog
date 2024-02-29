@@ -1,6 +1,0 @@
-linux-6.6 (6.6-1) UNRELEASED; urgency=medium
-
-  * Rebuild for Garden Linux.
-  * Require at least integrity lockdown.
-
- -- Garden Linux Maintainers <contact@gardenlinux.io>  Thu, 01 Jan 1970 00:00:00 +0000
