@@ -1,5 +1,5 @@
 pkg=linux
-version_orig=6.6.17
+version_orig=6.6.18
 version="$version_orig-0"
 
 (
@@ -22,10 +22,8 @@ version="$version_orig-0"
 	cp -r debian "$dir/src/"
 )
 
-# cp -r --update=none debian/. "$dir/src/debian/."
-cp -r debian/. "$dir/src/debian/."
-
-sed -i 's/compiler: gcc-13/compiler: gcc/' "$dir/src/debian/config/defines"
+rm -rf "$dir/src/debian/config"
+cp -r config "$dir/src/debian/"
 
 rm "$dir/src/debian/patches/debian/Revert-docs-kernel_feat.py-fix-potential-command-inj.patch"
 sed -i '/debian\/Revert-docs-kernel_feat\.py-fix-potential-command-inj\.patch/d' "$dir/src/debian/patches/series"
