@@ -27,3 +27,4 @@ cp -r config "$dir/src/debian/"
 
 rm "$dir/src/debian/patches/debian/Revert-docs-kernel_feat.py-fix-potential-command-inj.patch"
 sed -i '/debian\/Revert-docs-kernel_feat\.py-fix-potential-command-inj\.patch/d' "$dir/src/debian/patches/series"
+version_suffix=gardenlinux0
