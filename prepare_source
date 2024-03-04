@@ -15,6 +15,10 @@ version="$version_orig-0"
 	cd linux
 
 	apt-get install --no-install-recommends -y python3-debian # needed for genorig
+
+	# apply intel-dfl patchset
+	apply_patches patches/fpga-ofs-dev-6.6-lts-patches
+
 	debian/bin/genorig.py --override-version "$version_orig" "$kernel_repo"
 	git clean -fdx
 
@@ -28,5 +32,3 @@ cp -r config "$dir/src/debian/"
 rm "$dir/src/debian/patches/debian/Revert-docs-kernel_feat.py-fix-potential-command-inj.patch"
 sed -i '/debian\/Revert-docs-kernel_feat\.py-fix-potential-command-inj\.patch/d' "$dir/src/debian/patches/series"
 
-# apply intel-dfl patchset
-apply_patches patches/fpga-ofs-dev-6.6-lts-patches
