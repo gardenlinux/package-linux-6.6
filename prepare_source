@@ -27,3 +27,6 @@ cp -r config "$dir/src/debian/"
 
 rm "$dir/src/debian/patches/debian/Revert-docs-kernel_feat.py-fix-potential-command-inj.patch"
 sed -i '/debian\/Revert-docs-kernel_feat\.py-fix-potential-command-inj\.patch/d' "$dir/src/debian/patches/series"
+
+# apply intel-dfl patchset
+apply_patches patches/fpga-ofs-dev-6.6-lts-patches
