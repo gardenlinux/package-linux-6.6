@@ -29,3 +29,4 @@ rm "$dir/src/debian/patches/debian/Revert-docs-kernel_feat.py-fix-potential-comm
 sed -i '/debian\/Revert-docs-kernel_feat\.py-fix-potential-command-inj\.patch/d' "$dir/src/debian/patches/series"
 
 import_upstream_patches
+version_suffix=gardenlinux0
