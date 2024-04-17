@@ -1,0 +1,3 @@
+x86-make-x32-syscall-support-conditional.update.patch
+efi-add-an-efi_secure_boot-flag-to-indicate-secure-b.update.patch
+efi-lock-down-the-kernel-if-booted-in-secure-boot-mo.update.patch
