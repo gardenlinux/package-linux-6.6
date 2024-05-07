@@ -30,4 +30,4 @@ sed -i '/debian\/Revert-docs-kernel_feat\.py-fix-potential-command-inj\.patch/d'
 
 apply_patches fixes_debian
 import_upstream_patches
-version_suffix=gardenlinux0
+version_suffix=gardenlinux1
