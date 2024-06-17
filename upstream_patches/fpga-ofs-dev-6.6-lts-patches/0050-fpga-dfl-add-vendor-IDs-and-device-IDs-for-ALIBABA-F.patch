@@ -36,7 +36,6 @@ diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
 index 5fb3d4c393a9..66677b12a089 100644
 --- a/include/linux/pci_ids.h
 +++ b/include/linux/pci_ids.h
-@@ -1378,6 +1378,8 @@
 @@ -1380,6 +1380,8 @@
  #define PCI_VENDOR_ID_IMS		0x10e0
  #define PCI_DEVICE_ID_IMS_TT128		0x9128
