@@ -13,18 +13,18 @@ Signed-off-by: richard.li <richard.li@linux.alibaba.com>
  2 files changed, 4 insertions(+)
 
 diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
-index a41f4f6fd985..02801e600bf2 100644
+index 80cac3a5f..e2128d7c7 100644
 --- a/drivers/fpga/dfl-pci.c
 +++ b/drivers/fpga/dfl-pci.c
-@@ -80,6 +80,7 @@ static void cci_pci_free_irq(struct pci_dev *pcidev)
+@@ -79,6 +79,7 @@
  #define PCIE_DEVICE_ID_SILICOM_PAC_N5013	0x1002
  #define PCIE_DEVICE_ID_SILICOM_PAC_N5014	0x1003
  #define PCIE_DEVICE_ID_INTEL_DFL		0xbcce
 +#define PCIE_DEVICE_ID_ALIBABA_F5		0x8103
  /* PCI Subdevice ID for PCIE_DEVICE_ID_INTEL_DFL */
+ #define PCIE_SUBDEVICE_ID_INTEL_D5005		0x138d
  #define PCIE_SUBDEVICE_ID_INTEL_N6000		0x1770
- #define PCIE_SUBDEVICE_ID_INTEL_N6001		0x1771
-@@ -119,6 +120,7 @@ static struct pci_device_id cci_pcie_id_tbl[] = {
+@@ -120,6 +121,7 @@
  			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_C6100),},
  	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
  			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_C6100),},
@@ -33,10 +33,10 @@ index a41f4f6fd985..02801e600bf2 100644
  };
  MODULE_DEVICE_TABLE(pci, cci_pcie_id_tbl);
 diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index 5fb3d4c393a9..66677b12a089 100644
+index 0a85ff5c8..41161e4b1 100644
 --- a/include/linux/pci_ids.h
 +++ b/include/linux/pci_ids.h
-@@ -1378,6 +1378,8 @@
+@@ -1381,6 +1381,8 @@
  #define PCI_DEVICE_ID_IMS_TT128		0x9128
  #define PCI_DEVICE_ID_IMS_TT3D		0x9135
  
