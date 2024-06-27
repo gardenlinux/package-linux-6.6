@@ -10,4 +10,3 @@ jobs:
       release: ${{ github.ref == 'refs/heads/main' }}
       runs-on-amd64: ubuntu-latest-64core
       runs-on-arm64: ubuntu-latest-arm-64core
-      build_dep: gardenlinux/package-binutils 2.42-4gardenlinux0
