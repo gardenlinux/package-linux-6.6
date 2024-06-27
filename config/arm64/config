@@ -1,3 +1,6 @@
+# (temporary) workaround for https://sourceware.org/bugzilla/show_bug.cgi?id=31924
+CONFIG_RELR=n
+
 ##
 ## file: arch/Kconfig
 ##
