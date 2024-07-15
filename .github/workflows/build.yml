@@ -9,4 +9,4 @@ jobs:
     with:
       release: ${{ github.ref == 'refs/heads/main' }}
       runs-on-amd64: ubuntu-latest-64core
-      runs-on-arm64: ubuntu-24.04-arm-64core
+      runs-on-arm64: ubuntu-latest-arm-64core
