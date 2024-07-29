@@ -6,6 +6,10 @@ flavours:
 default-flavour: arm64
 quick-flavour: cloud-arm64
 
+[arm64_image]
+configs:
+ arm64/config.mlxbf
+
 [cloud-arm64_image]
 configs:
  arm64/config.gardenlinux
