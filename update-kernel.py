@@ -1,30 +1,49 @@
 from urllib.request import urlopen
 import json
-import re
 
-current_lts = '6.6'
-script_content = ""
+# Script to automate the process of selecting the latest patch version of linux
 
-def update_version(file_path, new_version):
-    # Define the regex pattern to match the version_orig variable
-    pattern = re.compile(r'(version_orig=)([\d\.]+)')
-    
-    with open(file_path, 'r') as file:
+# Update this when we base our kernel build on a newer lts branch
+current_lts = "6.6"
+
+
+def get_latest_kernel_version():
+    with urlopen("https://www.kernel.org/releases.json") as response:
+        releases = json.loads(response.read().decode())["releases"]
+        latest_current_lts = [
+            r["version"]
+            for r in releases
+            if r["moniker"] == "longterm"
+            and r["iseol"] == False
+            and r["version"].startswith(current_lts)
+        ]
+        assert len(latest_current_lts) == 1
+        print(latest_current_lts[0])
+        new_version = latest_current_lts[0]
+        return new_version
+
+def update_version_in_script(file_path, new_version):
+    script_content = ""
+    updated_content = ""
+    with open(file_path, "r") as file:
         script_content = file.read()
-    
-    # Search for the pattern and replace the version_orig value
-    updated_content = pattern.sub(r'\1{}'.format(re.escape(new_version)), script_content)
-    
-    with open(file_path, 'w') as file:
+        version_orig_line = [
+            y for y in script_content.splitlines() if y.startswith("version_orig")
+        ]
+        assert len(version_orig_line) == 1
+        old_version = version_orig_line[0].split("=")[1]
+        assert old_version.startswith(current_lts)
+
+        updated_content = script_content.replace(old_version, new_version, 1)
+
+    with open(file_path, "w") as file:
         file.write(updated_content)
 
-with urlopen("https://www.kernel.org/releases.json") as response:
-    releases = json.loads(response.read().decode())["releases"]
-    latest_current_lts = [
-        r['version'] for r in releases if r["moniker"] == "longterm" and r["iseol"] == False and r['version'].startswith(current_lts)
-    ]
-    assert len(latest_current_lts) == 1
-    print(latest_current_lts[0])
-    new_version=latest_current_lts[0]
 
-    update_version('prepare_source', new_version)
+def main():
+    new_version = get_latest_kernel_version()
+    update_version_in_script("prepare_source", new_version)
+
+
+if __name__ == "__main__":
+    main()
