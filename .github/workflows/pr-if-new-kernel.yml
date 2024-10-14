@@ -24,7 +24,7 @@ jobs:
             git config --global user.name "Garden Linux Builder"
             git config --global user.email "gardenlinux@users.noreply.github.com"
             git commit -m 'Update kernel ${{ steps.update.outputs.has-update }}'
-            gh pr create -B main -H update-kernel --title 'Update kernel ${{ steps.update.outputs.has-update }}'
+            gh pr create --base main --head update-kernel --title 'Update kernel ${{ steps.update.outputs.has-update }}' --reviewer gardenlinux/garden-linux-maintainers
           fi
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
