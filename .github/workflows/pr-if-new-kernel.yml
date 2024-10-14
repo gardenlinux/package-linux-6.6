@@ -1,0 +1,30 @@
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          OUTPUT=${python update-kernel.py}
+          echo $OUTPUT
+          echo "has-update=$OUTPUT" >> "$GITHUB_OUTPUT"
+        id: update
+      - name: create pull request
+        run: |
+          if [[ '${{ steps.update.outputs.has-update }}' ]]; then
+            git branch update-kernel
+            git add prepare_source
+            git config --global user.name "Garden Linux Builder"
+            git config --global user.email "gardenlinux@users.noreply.github.com"
+            git commit -m 'Update kernel ${{ steps.update.outputs.has-update }}'
+            gh pr create -B main -H update-kernel --title 'Update kernel ${{ steps.update.outputs.has-update }}'
+          fi
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

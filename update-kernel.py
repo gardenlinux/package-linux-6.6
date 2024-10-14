@@ -1,5 +1,6 @@
 from urllib.request import urlopen
 import json
+import sys
 
 # Script to automate the process of selecting the latest patch version of linux
 
@@ -18,7 +19,6 @@ def get_latest_kernel_version():
             and r["version"].startswith(current_lts)
         ]
         assert len(latest_current_lts) == 1
-        print(latest_current_lts[0])
         new_version = latest_current_lts[0]
         return new_version
 
@@ -34,6 +34,10 @@ def update_version_in_script(file_path, new_version):
         old_version = version_orig_line[0].split("=")[1]
         assert old_version.startswith(current_lts)
 
+        if old_version == new_version:
+            sys.exit(0)
+
+        print(f"{old_version} -> {new_version}")
         updated_content = script_content.replace(old_version, new_version, 1)
 
     with open(file_path, "w") as file:
