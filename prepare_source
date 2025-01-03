@@ -14,9 +14,7 @@ version="$version_orig-1"
 	git clone --depth 1 --branch "$debian_ref" "$debian_repo" linux
 	cd linux
 
-	apt-get install --no-install-recommends -y python3-debian devscripts # needed for genorig
-
-	set -x
+	apt-get install --no-install-recommends -y devscripts # needed for uscan
 	uscan -v --download-version="$version_orig"
 
 	git clean -fdx
