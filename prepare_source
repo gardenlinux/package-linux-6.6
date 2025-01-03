@@ -28,5 +28,5 @@ version="$version_orig-1"
 rm -rf "$dir/src/debian/config"
 cp -r config "$dir/src/debian/"
 
-# apply_patches fixes_debian
-# import_upstream_patches
+apply_patches fixes_debian
+import_upstream_patches
