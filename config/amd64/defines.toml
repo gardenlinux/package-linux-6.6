@@ -11,7 +11,13 @@ installer = true
 [[flavour]]
 name = 'cloud-amd64'
 [flavour.build]
-config = ['config.cloud-amd64']
+config = [
+ 'config.cloud',
+ 'amd64/config.cloud-amd64',
+ 'config.gardenlinux',
+ 'config.ima',
+ 'config.dfl'
+]
 [flavour.defs]
 is_quick = true
 [flavour.description]
@@ -21,7 +27,13 @@ hardware_long = 'cloud platforms including Amazon EC2, Microsoft Azure, and Goog
 [[flavour]]
 name = 'firecracker-amd64'
 [flavour.build]
-config = ['config.firecracker']
+config = [
+ 'config.cloud',
+ 'amd64/config.cloud-amd64',
+ 'config.gardenlinux',
+ 'config.firecracker',
+ 'amd64/config.firecracker'
+]
 [flavour.description]
 hardware = 'x86-64 firecracker'
 hardware_long = 'firecracker micro vm (https://firecracker-microvm.github.io/)'
