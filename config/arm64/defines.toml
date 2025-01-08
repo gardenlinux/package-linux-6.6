@@ -15,8 +15,7 @@ config = [
  'config.cloud',
  'arm64/config.cloud-arm64',
  'config.gardenlinux',
- 'config.ima',
- 'config.dfl'
+ 'config.ima'
 ]
 [flavour.defs]
 is_quick = true
