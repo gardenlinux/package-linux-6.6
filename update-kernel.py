@@ -5,7 +5,7 @@ import sys
 # Script to automate the process of selecting the latest patch version of linux
 
 # Update this when we base our kernel build on a newer lts branch
-current_lts = "6.6"
+current_lts = "6.12"
 
 
 def get_latest_kernel_version():
@@ -14,9 +14,9 @@ def get_latest_kernel_version():
         latest_current_lts = [
             r["version"]
             for r in releases
-            if r["moniker"] == "longterm"
+            if r["version"].startswith(current_lts)
+# not officially lts yet            and r["moniker"] == "longterm"
             and r["iseol"] == False
-            and r["version"].startswith(current_lts)
         ]
         assert len(latest_current_lts) == 1
         new_version = latest_current_lts[0]
