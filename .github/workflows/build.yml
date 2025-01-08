@@ -1,5 +1,9 @@
+name: Build Kernel
 on:
   push:
+    branches:
+      - main
+      - maint-6.6
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
