@@ -2,10 +2,12 @@
 name = 'arm64'
 [flavour.build]
 config = [
+ 'config',
  'arm64/config',
  'arm64/config.gardenlinux',
  'config.gardenlinux',
- 'config.ima'
+ 'config.ima',
+ 'config.tdx'
 ]
 [flavour.defs]
 is_default = true
@@ -18,7 +20,6 @@ installer = true
 name = 'cloud-arm64'
 [flavour.build]
 config = [
- 'arm64/config',
  'arm64/config.gardenlinux',
  'config.cloud',
  'arm64/config.cloud-arm64',
@@ -35,7 +36,6 @@ hardware_long = 'cloud platforms supporting arm64 virtual machines'
 name = 'firecracker-arm64'
 [flavour.build]
 config = [
- 'arm64/config',
  'arm64/config.gardenlinux',
  'config.cloud',
  'arm64/config.cloud-arm64',
