@@ -4,6 +4,7 @@ name = 'amd64'
 config = [
  'config',
  'amd64/config',
+ 'amd64/config.mlx',
  'config.gardenlinux',
  'config.ima',
  'config.tdx'
