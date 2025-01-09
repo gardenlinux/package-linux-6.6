@@ -7,7 +7,8 @@ config = [
  'arm64/config.gardenlinux',
  'config.gardenlinux',
  'config.ima',
- 'config.tdx'
+ 'config.tdx',
+ 'arm64/config.mlxbf'
 ]
 [flavour.defs]
 is_default = true
