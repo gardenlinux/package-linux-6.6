@@ -1,9 +1,6 @@
 name: Build Kernel
 on:
   push:
-    branches:
-      - main
-      - maint-6.6
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
@@ -11,6 +8,6 @@ jobs:
   build:
     uses: gardenlinux/package-build/.github/workflows/build.yml@main
     with:
-      release: ${{ github.ref == 'refs/heads/main' }}
+      release: ${{ contains(fromJSON('["refs/heads/main", "refs/heads/maint-6.6"]'), github.ref) }}
       runs-on-amd64: ubuntu-latest-64core
       runs-on-arm64: ubuntu-latest-arm-64core
