@@ -7,6 +7,9 @@ version="$version_orig-1"
 	debian_repo=https://salsa.debian.org/kernel-team/linux.git
 	debian_ref="debian/6.12.9-1"
 
+	apt-get -q update
+	apt-get -yq dist-upgrade
+
 	tmp_dir="$(mktemp -d)"
 	trap 'cd / && rm -rf "$tmp_dir"' EXIT
 	cd "$tmp_dir"
@@ -15,7 +18,6 @@ version="$version_orig-1"
 	cd linux
 
 	apt-get install -y devscripts sopv-gpgv strace # needed for uscan
-	ln -s /usr/bin/sopv /usr/local/sbin/sopv
 	strace -f -Z uscan -vvv --download-version="$version_orig"
 
 	git clean -fdx
