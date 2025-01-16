@@ -15,6 +15,7 @@ version="$version_orig-1"
 	cd linux
 
 	apt-get install --no-install-recommends -y devscripts sopv-gpgv strace # needed for uscan
+	ln -s /usr/bin/sopv-gpgv /usr/bin/sopv
 	strace -f -Z uscan -vvv --download-version="$version_orig"
 
 	git clean -fdx
