@@ -17,7 +17,7 @@ version="$version_orig-1"
 	git clone --depth 1 --branch "$debian_ref" "$debian_repo" linux
 	cd linux
 
-	apt-get install -y devscripts sopv-gpgv strace # needed for uscan
+	apt-get install -y devscripts sopv-gpgv strace gpgv # needed for uscan
 	strace -f -Z uscan -vvv --download-version="$version_orig"
 
 	git clean -fdx
