@@ -1,5 +1,6 @@
 name: Backport kernel to existing releases
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'maint-6.6'
