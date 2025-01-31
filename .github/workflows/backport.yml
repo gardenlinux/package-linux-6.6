@@ -22,6 +22,8 @@ jobs:
             LATEST_COMMIT=$(git log -n 1 origin/maint-6.6)
             git config --global user.name "Garden Linux Builder"
             git config --global user.email "gardenlinux@users.noreply.github.com"
-            git checkout rel-${{ matrix.branch }}
+            git fetch origin
+            git checkout origin/rel-${{ matrix.branch }}
+            git checkout -b rel-${{ matrix.branch }}
             git cherry-pick $LATEST_COMMIT
             git push --set-upstream origin rel-${{ matrix.branch }}
