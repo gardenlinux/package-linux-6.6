@@ -19,7 +19,8 @@ jobs:
         with:
           ref: maint-6.6
       - run: |
-            LATEST_COMMIT=$(git log -n 1 origin/maint-6.6)
+            LATEST_COMMIT=$(git rev-parse --verify origin/maint-6.6)
+            echo backporting commit $LATEST_COMMIT
             git config --global user.name "Garden Linux Builder"
             git config --global user.email "gardenlinux@users.noreply.github.com"
             git fetch origin
