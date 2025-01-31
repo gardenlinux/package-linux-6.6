@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     # Matrix build for maintenance of multiple Garden Linux releases
     strategy:
+      fail-fast: false
       matrix:
         branch: ['1443', '1592']
     permissions:
