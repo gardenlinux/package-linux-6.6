@@ -1,11 +1,11 @@
 pkg=linux
-version_orig=6.12.12
+version_orig=6.12.13
 version="$version_orig-1"
 
 (
 	kernel_repo=https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 	debian_repo=https://salsa.debian.org/kernel-team/linux.git
-	debian_ref="debian/6.12.12-1"
+	debian_ref="debian/6.12.13-1"
 
 	tmp_dir="$(mktemp -d)"
 	trap 'cd / && rm -rf "$tmp_dir"' EXIT
