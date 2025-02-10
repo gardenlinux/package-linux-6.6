@@ -1,6 +1,6 @@
---- a/debian/patches/bugfix/all/firmware-remove-redundant-log-messages-from-drivers.patch	2025-02-10 10:50:30.517400929 +0100
-+++ b/debian/patches/bugfix/all/firmware-remove-redundant-log-messages-from-drivers.patch	2025-02-10 10:51:02.596120444 +0100
-@@ -1591,7 +1591,6 @@
+--- a/debian/patches/bugfix/all/firmware-remove-redundant-log-messages-from-drivers.patch	2025-02-10 11:30:06.165770127 +0100
++++ b/debian/patches/bugfix/all/firmware-remove-redundant-log-messages-from-drivers.patch	2025-02-10 11:30:17.965035383 +0100
+@@ -1591,11 +1591,10 @@
   
   	rtl_dbg(rtlpriv, COMP_ERR, DBG_LOUD,
   		"Firmware callback routine entered!\n");
@@ -8,3 +8,6 @@
   	if (!firmware) {
  -		pr_err("Firmware %s not available\n", fw_name);
   		rtlpriv->max_fw_size = 0;
+- 		return;
++ 		goto exit;
+  	}
