@@ -34,9 +34,16 @@ To see what Garden Linux versions are currently supported, please check out the 
 Any kernel version that we need to maintain other than the latest LTS in main, are maintained in `maint-<MAJOR.MINOR>` branches (e.g. maint-6.6).
 Actual backport releases need to branch of from the respective `maint-<MAJOR.MINOR>` branch and include the corresponding `.container` file for target backport.
 
+Branches containing the `.container` file must be named according to the `rel-MAJOR` naming scheme (e.g. rel-1443).
+
+
+
 > [!Tip]
 > You can find out the correct `.container` file by copying it from the corresponding tag of the https://github.com/gardenlinux/repo branch, for example [1443.0](https://github.com/gardenlinux/repo/blob/1443.0/.container)
 
+
+> [!Note]
+> We must create rel- branches do include the respective `.container` file, for example when multiple releases use the same kernel version (e.g. rel-1443 and rel-1592 both use maint-6.6) 
 
 ## Automated kernel patch level upgrades 
 
