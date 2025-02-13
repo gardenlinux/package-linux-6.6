@@ -51,6 +51,13 @@ Branches containing the `.container` file must be named according to the `rel-MA
 A scheduled workflow scans a list of configured branches [see](https://github.com/gardenlinux/package-linux/blob/main/.github/workflows/pr-if-new-kernel.yml#L12), and bumps the patchlevel of the version defined in the prepare_source file.
 The automation creates a PR if a new patchlevel is available.
 
+> [!Important]  
+> Note that build failures in this PR will not be visible in the way you are used to it.
+> This is due to limitations on GitHub.
+> Always check the PR-related workflow manually before merge as it might well be that an upgrade of the kernel breaks the build.
+> [See this issue for more information if you are interested](https://github.com/gardenlinux/package-linux/issues/47).
+
+
 > [!Hint]
 > This is done via the [update-kernel.py](https://github.com/gardenlinux/package-linux/blob/main/update-kernel.py) tool
 
