@@ -43,7 +43,7 @@ Branches containing the `.container` file must be named according to the `rel-MA
 
 
 > [!Note]
-> We must create rel- branches do include the respective `.container` file, for example when multiple releases use the same kernel version (e.g. rel-1443 and rel-1592 both use maint-6.6) 
+> We must create rel- branches to include the respective `.container` file, and not use maint for backports. This is required because multiple releases can use the same kernel version (e.g. rel-1443 and rel-1592 both use maint-6.6) 
 
 ## Automated kernel patch level upgrades 
 
