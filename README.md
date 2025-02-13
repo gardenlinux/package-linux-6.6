@@ -32,7 +32,7 @@ We maintain also older supported kernel versions, if they are required by suppor
 To see what Garden Linux versions are currently supported, please check out the [Active and Next Release section in the gardenlinux/gardenlinux repository](https://github.com/gardenlinux/gardenlinux?tab=readme-ov-file#active-and-next-releases). 
 
 Any kernel version that we need to maintain other than the latest LTS in main, are maintained in `maint-<MAJOR.MINOR>` branches (e.g. maint-6.6).
-Actual backport releases need to branch of from the respective `maint-<MAJOR.MINOR>` branch and include the corresponding `.container` file for target backport.
+Backport releases need to branch off from the respective `maint-<MAJOR.MINOR>` branch and include the corresponding `.container` file for target backport.
 
 Branches containing the `.container` file must be named according to the `rel-MAJOR` naming scheme (e.g. rel-1443).
 
