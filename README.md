@@ -22,3 +22,29 @@ In some cases, we need to make changes to those to get a working build.
 `.github/workflows/pr-if-new-kernel.yml` contains the workflow to create new PRs based on `./update-kernel.py` if new patch versions of the LTS kernel are available.
 
 `.github/workflows/build.yml` contains the workflow to build and release the kernel binaries.
+
+
+## Backports 
+
+The main branch is always on latest Long term supported Linux version defined at kernel.org. 
+
+We maintain also older supported kernel versions, if they are required by supported Garden Linux versions.
+To see what Garden Linux versions are currently supported, please check out the [Active and Next Release](https://github.com/gardenlinux/gardenlinux?tab=readme-ov-file#active-and-next-releases) section in gardenlinux/gardenlinux repository. 
+
+Any kernel version that we need to maintain other than the latest LTS in main, are maintained in `maint-<MAJOR.MINOR>` branches (e.g. maint-6.6).
+Actual backport releases need to branch of from the respective `maint-<MAJOR.MINOR>` branch and include the corresponding `.container` file for target backport.
+
+> [!Tip]
+> You can find out the correct `.container` file by copying it from the corresponding tag of the https://github.com/gardenlinux/repo branch, for example [1443.0](https://github.com/gardenlinux/repo/blob/1443.0/.container)
+
+
+## Automated kernel patch level upgrades 
+
+A scheduled workflow scans a list of configured branches [see](https://github.com/gardenlinux/package-linux/blob/main/.github/workflows/pr-if-new-kernel.yml#L12), and bumps the patchlevel of the version defined in the prepare_source file.
+The automation creates a PR if a new patchlevel is available.
+
+> [!Hint]
+> This is done via the [update-kernel.py](https://github.com/gardenlinux/package-linux/blob/main/update-kernel.py) tool
+
+
+
