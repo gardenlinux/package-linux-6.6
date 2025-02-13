@@ -26,7 +26,8 @@ In some cases, we need to make changes to those to get a working build.
 
 ## Backports 
 
-The main branch is always on latest Long term supported Linux version defined at kernel.org. 
+The main branch of this repository always contains the latest kernel available in Garden Linux, and in the nightly builds.
+Typically, this will be the most recent long term support (LTS) line from kernel.org, but from time to time it might also be a 'stable' kernel that will become the next LTS.
 
 We maintain also older supported kernel versions, if they are required by supported Garden Linux versions.
 To see what Garden Linux versions are currently supported, please check out the [Active and Next Release section in the gardenlinux/gardenlinux repository](https://github.com/gardenlinux/gardenlinux?tab=readme-ov-file#active-and-next-releases). 
