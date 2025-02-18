@@ -1,5 +1,5 @@
 pkg=linux
-version_orig=6.6.71
+version_orig=6.6.78
 version="$version_orig-0"
 
 (
@@ -14,7 +14,8 @@ version="$version_orig-0"
 	git clone --depth 1 --branch "$debian_ref" "$debian_repo" linux
 	cd linux
 
-	apt-get install --no-install-recommends -y python3-debian # needed for genorig
+	apt-get install --no-install-recommends -y python3-debian gpgv # needed for genorig
+        apt-get remove --purge sqopv -y
 	debian/bin/genorig.py --override-version "$version_orig" "$kernel_repo"
 	git clean -fdx
 
