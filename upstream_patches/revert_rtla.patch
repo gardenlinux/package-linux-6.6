@@ -4,11 +4,9 @@ Date:   Tue Feb 18 07:36:53 2025 +0100
 
     revert tools/tracing/rtla to v6.6.77
 
-diff --git a/tools/tracing/rtla/src/osnoise.c b/tools/tracing/rtla/src/osnoise.c
-index 699a83f538a8..245e9344932b 100644
 --- a/tools/tracing/rtla/src/osnoise.c
 +++ b/tools/tracing/rtla/src/osnoise.c
-@@ -867,7 +867,7 @@ int osnoise_set_workload(struct osnoise_context *context, bool onoff)
+@@ -867,7 +867,7 @@
  
  	retval = osnoise_options_set_option("OSNOISE_WORKLOAD", onoff);
  	if (retval < 0)
@@ -17,11 +15,9 @@ index 699a83f538a8..245e9344932b 100644
  
  	context->opt_workload = onoff;
  
-diff --git a/tools/tracing/rtla/src/timerlat_hist.c b/tools/tracing/rtla/src/timerlat_hist.c
-index 1525e88c6cf9..667f12f2d67f 100644
 --- a/tools/tracing/rtla/src/timerlat_hist.c
 +++ b/tools/tracing/rtla/src/timerlat_hist.c
-@@ -900,15 +900,12 @@ timerlat_hist_apply_config(struct osnoise_tool *tool, struct timerlat_hist_param
+@@ -900,15 +900,12 @@
  		auto_house_keeping(&params->monitored_cpus);
  	}
  
@@ -43,20 +39,7 @@ index 1525e88c6cf9..667f12f2d67f 100644
  	}
  
  	return 0;
-@@ -949,12 +946,9 @@ static struct osnoise_tool
- }
- 
- static int stop_tracing;
--static struct trace_instance *hist_inst = NULL;
- static void stop_hist(int sig)
- {
- 	stop_tracing = 1;
--	if (hist_inst)
--		trace_instance_stop(hist_inst);
- }
- 
- /*
-@@ -1000,12 +994,6 @@ int timerlat_hist_main(int argc, char *argv[])
+@@ -1008,12 +1005,6 @@
  	}
  
  	trace = &tool->trace;
@@ -69,7 +52,7 @@ index 1525e88c6cf9..667f12f2d67f 100644
  
  	retval = enable_timerlat(trace);
  	if (retval) {
-@@ -1138,7 +1126,7 @@ int timerlat_hist_main(int argc, char *argv[])
+@@ -1146,7 +1137,7 @@
  
  	return_value = 0;
  
@@ -78,11 +61,9 @@ index 1525e88c6cf9..667f12f2d67f 100644
  		printf("rtla timerlat hit stop tracing\n");
  
  		if (!params->no_aa)
-diff --git a/tools/tracing/rtla/src/timerlat_top.c b/tools/tracing/rtla/src/timerlat_top.c
-index 5a33789a375e..0915092057f8 100644
 --- a/tools/tracing/rtla/src/timerlat_top.c
 +++ b/tools/tracing/rtla/src/timerlat_top.c
-@@ -679,15 +679,12 @@ timerlat_top_apply_config(struct osnoise_tool *top, struct timerlat_top_params *
+@@ -679,15 +679,12 @@
  		auto_house_keeping(&params->monitored_cpus);
  	}
  
@@ -104,20 +85,7 @@ index 5a33789a375e..0915092057f8 100644
  	}
  
  	return 0;
-@@ -728,12 +725,9 @@ static struct osnoise_tool
- }
- 
- static int stop_tracing;
--static struct trace_instance *top_inst = NULL;
- static void stop_top(int sig)
- {
- 	stop_tracing = 1;
--	if (top_inst)
--		trace_instance_stop(top_inst);
- }
- 
- /*
-@@ -780,13 +774,6 @@ int timerlat_top_main(int argc, char *argv[])
+@@ -788,13 +785,6 @@
  	}
  
  	trace = &top->trace;
@@ -131,7 +99,7 @@ index 5a33789a375e..0915092057f8 100644
  
  	retval = enable_timerlat(trace);
  	if (retval) {
-@@ -935,7 +922,7 @@ int timerlat_top_main(int argc, char *argv[])
+@@ -943,7 +933,7 @@
  
  	return_value = 0;
  
@@ -140,15 +108,12 @@ index 5a33789a375e..0915092057f8 100644
  		printf("rtla timerlat hit stop tracing\n");
  
  		if (!params->no_aa)
-diff --git a/tools/tracing/rtla/src/trace.c b/tools/tracing/rtla/src/trace.c
-index 93e4032b2397..e1ba6d9f4265 100644
 --- a/tools/tracing/rtla/src/trace.c
 +++ b/tools/tracing/rtla/src/trace.c
-@@ -196,14 +196,6 @@ int trace_instance_start(struct trace_instance *trace)
- 	return tracefs_trace_on(trace->inst);
+@@ -197,14 +197,6 @@
  }
  
--/*
+ /*
 - * trace_instance_stop - stop tracing a given rtla instance
 - */
 -int trace_instance_stop(struct trace_instance *trace)
@@ -156,14 +121,13 @@ index 93e4032b2397..e1ba6d9f4265 100644
 -	return tracefs_trace_off(trace->inst);
 -}
 -
- /*
+-/*
   * trace_events_free - free a list of trace events
   */
-diff --git a/tools/tracing/rtla/src/trace.h b/tools/tracing/rtla/src/trace.h
-index 551a7cb81f63..2e9a89a25615 100644
+ static void trace_events_free(struct trace_events *events)
 --- a/tools/tracing/rtla/src/trace.h
 +++ b/tools/tracing/rtla/src/trace.h
-@@ -21,7 +21,6 @@ struct trace_instance {
+@@ -21,7 +21,6 @@
  
  int trace_instance_init(struct trace_instance *trace, char *tool_name);
  int trace_instance_start(struct trace_instance *trace);
